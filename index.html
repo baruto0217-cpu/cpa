@@ -40,9 +40,11 @@ li{margin-bottom:8px}
 </main>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); });
+  navigator.serviceWorker.getRegistrations().then(function (rs) {
+    rs.forEach(function (r) { if (/\/cpa\/$/.test(r.scope)) r.unregister(); });
+  });
 }
-if (window.caches) { caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }); }
+if (window.caches) caches.delete('cpa-v1');
 </script>
 </body>
 </html>
